@@ -17,4 +17,6 @@ npm run build
 node dist/packages/cli/src/index.js build examples/hello-world/App.tsx --out dist/generated
 ```
 
+<a href="https://masiprand151.github.io/jsdesk/#overview">Documentation<a>
+<br/>
 The generated app is produced under the output directory and can be built using `dotnet build` on the generated project file.
