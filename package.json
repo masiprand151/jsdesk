@@ -1,0 +1,21 @@
+{
+  "name": "jsdesk",
+  "private": false,
+  "version": "0.1.0",
+  "bin": {
+    "jsdesk": "dist/packages/cli/src/index.js"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "node ./node_modules/typescript/bin/tsc -p tsconfig.json",
+    "dev": "node dist/packages/cli/src/index.js dev examples/App.tsx --out dist/generated",
+    "jsdesk": "node dist/packages/cli/src/index.js",
+    "app": "node dist/packages/cli/src/index.js build src/App.tsx --out dist/generated && dotnet run --project dist/generated/Jsdesk.Generated.csproj"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.6.3"
+  }
+}

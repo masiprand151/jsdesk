@@ -1,0 +1,8 @@
+node_modules/
+dist/
+[Bb]in/
+[Oo]bj/
+*.log
+.DS_Store
+.vscode/
+output/

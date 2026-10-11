@@ -1,0 +1,8 @@
+{
+  "name": "@jsdesk/cli",
+  "version": "0.1.0",
+  "main": "../../../dist/packages/cli/src/index.js",
+  "bin": {
+    "jsdesk": "../../../dist/packages/cli/src/index.js"
+  }
+}
