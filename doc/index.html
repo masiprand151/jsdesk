@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#173b35" />
+    <title>Jsdesk UI Handbook</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="docs-shell">
+      <aside class="sidebar" id="sidebar" aria-label="Navigasi dokumentasi">
+        <a class="brand" href="#overview" aria-label="Jsdesk UI Handbook home">
+          <span class="brand-mark">J</span>
+          <span><strong>jsdesk</strong><small>UI HANDBOOK</small></span>
+        </a>
+
+        <div class="sidebar-meta">
+          <span class="status-dot"></span> WPF UI API
+          <span class="version">0.1</span>
+        </div>
+
+        <nav class="side-nav">
+          <p class="nav-heading">MULAI</p>
+          <a href="#overview" class="nav-link active"
+            >Gambaran umum <span>01</span></a
+          >
+          <a href="#quick-start" class="nav-link"
+            >Contoh awal <span>02</span></a
+          >
+          <p class="nav-heading">KOMPONEN</p>
+          <a href="#window" class="nav-link">Window <span>03</span></a>
+          <a href="#layout" class="nav-link">Layout <span>04</span></a>
+          <a href="#controls" class="nav-link"
+            >Text, Button, Input <span>05</span></a
+          >
+          <a href="#navigation" class="nav-link"
+            >NavigationStack <span>06</span></a
+          >
+          <p class="nav-heading">TAMPILAN</p>
+          <a href="#style" class="nav-link">Style reference <span>07</span></a>
+          <a href="#position" class="nav-link"
+            >Position playground <span>08</span></a
+          >
+          <a href="#limits" class="nav-link"
+            >Batasan saat ini <span>09</span></a
+          >
+        </nav>
+
+        <div class="sidebar-foot">
+          <span class="foot-mark">TSX <i></i> XAML</span>
+          <span>Dokumentasi API UI Jsdesk</span>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <button
+            class="menu-toggle"
+            id="menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="sidebar"
+          >
+            Menu
+          </button>
+          <div class="breadcrumbs">
+            <span>Dokumentasi</span><b>/</b><strong>UI</strong>
+          </div>
+          <label class="search-box">
+            <span class="search-icon" aria-hidden="true">/</span>
+            <input
+              id="doc-search"
+              type="search"
+              placeholder="Cari di dokumentasi"
+              autocomplete="off"
+            />
+            <kbd>Ctrl K</kbd>
+          </label>
+        </header>
+
+        <div class="content-wrap" id="content-wrap">
+          <section
+            class="hero doc-section"
+            id="overview"
+            data-title="Gambaran umum"
+          >
+            <div class="hero-copy">
+              <p class="eyebrow">
+                <span>UI SYSTEM</span><span class="eyebrow-line"></span
+                ><span>01 / 09</span>
+              </p>
+              <h1>Bangun antarmuka<br /><em>dengan cara Jsdesk.</em></h1>
+              <p class="hero-lede">
+                Komponen UI ditulis sebagai tree TypeScript, lalu compiler
+                Jsdesk mengubahnya menjadi kontrol WPF. Styling memakai subset
+                properti bergaya CSS yang diterjemahkan saat build.
+              </p>
+              <div class="hero-tags">
+                <span>Desktop native</span><span>TypeScript API</span
+                ><span>WPF output</span>
+              </div>
+            </div>
+            <div class="pipeline" aria-label="Alur kompilasi">
+              <div class="pipeline-label">RENDER PIPELINE</div>
+              <div class="pipeline-step">
+                <b>01</b
+                ><span
+                  ><strong>App.tsx</strong><small>UI tree + props</small></span
+                ><i>TS</i>
+              </div>
+              <div class="pipeline-arrow"></div>
+              <div class="pipeline-step">
+                <b>02</b
+                ><span
+                  ><strong>Jsdesk compiler</strong
+                  ><small>parse + generate</small></span
+                ><i>IR</i>
+              </div>
+              <div class="pipeline-arrow"></div>
+              <div class="pipeline-step output">
+                <b>03</b
+                ><span
+                  ><strong>WPF / XAML</strong
+                  ><small>native Windows UI</small></span
+                ><i>WIN</i>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="doc-section section-block"
+            id="quick-start"
+            data-title="Contoh awal"
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">MULAI CEPAT <span>02</span></p>
+                <h2>UI pertama</h2>
+              </div>
+              <p>
+                Mulai dari <code>Window</code>, susun layout, lalu tambahkan
+                kontrol.
+              </p>
+            </div>
+            <div class="code-panel">
+              <div class="code-top">
+                <span><i class="file-dot"></i> src/App.tsx</span
+                ><span>TypeScript</span>
+              </div>
+              <pre><code>import { Application, Window, View, Column, Text } from "@jsdesk/core";
+
+export default function App() {
+  return Window({
+    title: "Jsdesk",
+    width: 960,
+    height: 640,
+    style: { backgroundColor: "#F3F5F2" },
+    body: View({
+      style: {
+        position: "center",
+        width: 460,
+        padding: 32,
+        backgroundColor: "#FFFFFF",
+        borderRadius: 18,
+      },
+      children: [
+        Column({
+          spacing: 14,
+          children: [
+            Text({ value: "Halo, dunia." }),
+            Text({ value: "UI desktop dari App.tsx." }),
+          ],
+        }),
+      ],
+    }),
+  });
+}
+
+Application.start(App);</code></pre>
+            </div>
+            <div class="note-row">
+              <span class="note-icon">i</span>
+              <p>
+                <strong>Kontrak UI saat ini:</strong> compiler membaca
+                pemanggilan komponen dan properti statis dari
+                <code>App.tsx</code>. Ini bukan browser DOM; style dipetakan ke
+                atribut XAML.
+              </p>
+            </div>
+          </section>
+
+          <section
+            class="doc-section section-block"
+            id="window"
+            data-title="Window"
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">KOMPONEN 01 <span>03</span></p>
+                <h2>Window</h2>
+              </div>
+              <p>
+                Root aplikasi. Ukuran memakai satuan device-independent WPF.
+              </p>
+            </div>
+            <div class="reference-table">
+              <div class="table-head">
+                <span>Properti</span><span>Tipe</span><span>Default</span
+                ><span>Efek</span>
+              </div>
+              <div class="table-row">
+                <code>title</code><span>string</span><span>"Jsdesk App"</span>
+                <p>Judul window dan titlebar.</p>
+              </div>
+              <div class="table-row">
+                <code>width</code><span>number</span><span>1000</span>
+                <p>Lebar window dalam unit WPF.</p>
+              </div>
+              <div class="table-row">
+                <code>height</code><span>number</span><span>700</span>
+                <p>Tinggi window dalam unit WPF.</p>
+              </div>
+              <div class="table-row">
+                <code>fullscreen</code><span>boolean</span><span>false</span>
+                <p>
+                  Memaksimalkan window. Tidak sama dengan exclusive fullscreen.
+                </p>
+              </div>
+              <div class="table-row">
+                <code>frame</code><span>boolean</span><span>true</span>
+                <p><code>false</code> menghilangkan frame dan titlebar.</p>
+              </div>
+              <div class="table-row">
+                <code>resize</code><span>boolean</span><span>true</span>
+                <p>Mengizinkan atau melarang resize window.</p>
+              </div>
+              <div class="table-row">
+                <code>alwaysOnTop</code><span>boolean</span><span>false</span>
+                <p>Mengatur WPF <code>Topmost</code>.</p>
+              </div>
+              <div class="table-row">
+                <code>body</code><span>JsdeskNode</span><span>-</span>
+                <p>Konten utama window.</p>
+              </div>
+              <div class="table-row">
+                <code>style</code><span>JsdeskStyle</span><span>-</span>
+                <p>Style window, misalnya <code>backgroundColor</code>.</p>
+              </div>
+            </div>
+            <div class="code-panel compact-code">
+              <div class="code-top">
+                <span>Window tanpa titlebar</span><span>App.tsx</span>
+              </div>
+              <pre><code>Window({
+  title: "Panel",
+  width: 900,
+  height: 600,
+  fullscreen: false,
+  frame: false,
+  resize: false,
+  alwaysOnTop: true,
+  body: View({ children: [/* ... */] }),
+})</code></pre>
+            </div>
+            <p class="fine-print">
+              Ejaan lama <code>fulscreen</code> masih diterima sebagai alias,
+              tetapi gunakan <code>fullscreen</code> untuk kode baru.
+            </p>
+          </section>
+
+          <section
+            class="doc-section section-block"
+            id="layout"
+            data-title="Layout"
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">KOMPONEN 02 <span>04</span></p>
+                <h2>Susun layout</h2>
+              </div>
+              <p>Layout menerjemahkan tree komponen menjadi panel WPF.</p>
+            </div>
+            <div class="component-grid">
+              <article class="component-item">
+                <span class="component-index">A</span>
+                <h3>Column</h3>
+                <p>
+                  Menyusun children secara vertikal dengan
+                  <code>StackPanel</code>.
+                </p>
+                <code class="signature"
+                  >Column({ children, spacing, padding, style })</code
+                >
+              </article>
+              <article class="component-item">
+                <span class="component-index">B</span>
+                <h3>Row</h3>
+                <p>
+                  Menyusun children secara horizontal dengan
+                  <code>StackPanel</code>.
+                </p>
+                <code class="signature"
+                  >Row({ children, spacing, padding, style })</code
+                >
+              </article>
+              <article class="component-item">
+                <span class="component-index">C</span>
+                <h3>View</h3>
+                <p>
+                  Container visual berbasis WPF <code>Border</code>. Cocok untuk
+                  panel dan kartu.
+                </p>
+                <code class="signature">View({ children, style })</code>
+              </article>
+            </div>
+            <div class="split-example">
+              <div>
+                <h3>Spacing antaranak</h3>
+                <p>
+                  Properti <code>spacing</code> menambahkan margin pada tiap
+                  child selain child terakhir. Nilainya angka dalam unit WPF.
+                </p>
+                <div class="mini-stack">
+                  <span>Item satu</span><span>Item dua</span
+                  ><span>Item tiga</span>
+                </div>
+              </div>
+              <div class="code-panel">
+                <div class="code-top">
+                  <span>Stack berjarak</span><span>Layout</span>
+                </div>
+                <pre><code>Column({
+  spacing: 16,
+  children: [
+    Text({ value: "Judul" }),
+    Text({ value: "Deskripsi" }),
+    Button({ text: "Lanjut" }),
+  ],
+})</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="doc-section section-block"
+            id="controls"
+            data-title="Text Button TextInput"
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">KOMPONEN 03 <span>05</span></p>
+                <h2>Kontrol UI</h2>
+              </div>
+              <p>
+                Kontrol isi memakai properti eksplisit, lalu opsi visual di
+                <code>style</code>.
+              </p>
+            </div>
+            <div class="reference-table control-table">
+              <div class="table-head">
+                <span>Komponen</span><span>Properti inti</span
+                ><span>Render WPF</span><span>Catatan</span>
+              </div>
+              <div class="table-row">
+                <strong>Text</strong><code>value, style</code
+                ><code>TextBlock</code>
+                <p>Teks yang dirender berasal dari <code>value</code>.</p>
+              </div>
+              <div class="table-row">
+                <strong>Button</strong><code>text, onPress, style</code
+                ><code>Button</code>
+                <p>
+                  Template global rounded; aksi navigasi yang didukung:
+                  <code>Navigate</code> dan <code>GoBack</code>.
+                </p>
+              </div>
+              <div class="table-row">
+                <strong>TextInput</strong
+                ><code>value, placeholder, onChange, style</code
+                ><code>TextBox</code>
+                <p>
+                  Saat ini merender nilai awal dan style. Placeholder dan
+                  onChange belum terhubung.
+                </p>
+              </div>
+            </div>
+            <div class="code-panel compact-code">
+              <div class="code-top">
+                <span>Kontrol dengan style</span><span>Controls</span>
+              </div>
+              <pre><code>Text({
+  value: "Nama proyek",
+  style: { fontSize: 18, fontWeight: "Bold", color: "#18352F" },
+})
+
+Button({
+  text: "Buat proyek",
+  style: {
+    backgroundColor: "#176B5B",
+    color: "#FFFFFF",
+    padding: "12 18",
+  },
+})</code></pre>
+            </div>
+          </section>
+
+          <section
+            class="doc-section section-block"
+            id="navigation"
+            data-title="NavigationStack"
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">KOMPONEN 04 <span>06</span></p>
+                <h2>Navigasi halaman</h2>
+              </div>
+              <p>
+                Route map adalah konfigurasi. Tombol hanya ada jika ditulis
+                sebagai <code>Button</code>.
+              </p>
+            </div>
+            <div class="code-panel">
+              <div class="code-top">
+                <span>NavigationStack + aksi eksplisit</span
+                ><span>Navigation</span>
+              </div>
+              <pre><code>function HomePage() {
+  return Column({
+    children: [
+      Text({ value: "Beranda" }),
+      Button({
+        text: "Buka pengaturan",
+        onPress: () =&gt; Navigate("/settings"),
+      }),
+    ],
+  });
+}
+
+function SettingsPage() {
+  return Column({
+    children: [
+      Text({ value: "Pengaturan" }),
+      Button({ text: "Kembali", onPress: () =&gt; GoBack() }),
+    ],
+  });
+}
+
+NavigationStack({
+  initialRoute: "/home",
+  routes: {
+    "/home": HomePage,
+    "/settings": SettingsPage,
+  },
+})</code></pre>
+            </div>
+            <div class="note-row accent-note">
+              <span class="note-icon">!</span>
+              <p>
+                Route pertama pada object <code>routes</code> saat ini menjadi
+                halaman awal yang terlihat. <code>initialRoute</code> belum
+                digunakan untuk memilih halaman awal oleh generator WPF.
+                Parameter kedua <code>Navigate(path, params)</code> juga belum
+                diteruskan ke halaman generated.
+              </p>
+            </div>
+          </section>
+
+          <section
+            class="doc-section section-block"
+            id="style"
+            data-title="Style reference"
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">STYLE API <span>07</span></p>
+                <h2>Style yang didukung</h2>
+              </div>
+              <p>
+                Gunakan nama properti camelCase. Nilai dikonversi ke atribut WPF
+                saat generate.
+              </p>
+            </div>
+            <div class="style-table-wrap">
+              <table class="style-table">
+                <thead>
+                  <tr>
+                    <th>Style</th>
+                    <th>Contoh nilai</th>
+                    <th>Pemetaan / cakupan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>position</code></td>
+                    <td><code>"center"</code></td>
+                    <td>
+                      Memilih alignment horizontal + vertikal pada elemen.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <code>horizontalAlignment</code><br /><code
+                        >verticalAlignment</code
+                      >
+                    </td>
+                    <td><code>"Center"</code>, <code>"Top"</code></td>
+                    <td>
+                      Alignment langsung WPF; dapat menimpa bagian dari
+                      <code>position</code>.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>width</code>, <code>height</code></td>
+                    <td>460, 240</td>
+                    <td>Ukuran elemen atau window.</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <code>minWidth</code>, <code>maxWidth</code><br /><code
+                        >minHeight</code
+                      >, <code>maxHeight</code>
+                    </td>
+                    <td>320, 800</td>
+                    <td>Batas ukuran WPF.</td>
+                  </tr>
+                  <tr>
+                    <td><code>margin</code></td>
+                    <td>16, <code>"12 20"</code></td>
+                    <td>Margin WPF. String mendukung shorthand 1-4 angka.</td>
+                  </tr>
+                  <tr>
+                    <td><code>padding</code></td>
+                    <td>24, <code>"12 18"</code></td>
+                    <td>
+                      Container <code>View</code>, <code>Column</code>/<code
+                        >Row</code
+                      >
+                      berbingkai, Button, TextInput.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <code>backgroundColor</code><br /><code>background</code>
+                    </td>
+                    <td><code>"#F3F5F2"</code></td>
+                    <td>
+                      Background WPF pada window, panel, border, button, input.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>color</code></td>
+                    <td><code>"#18352F"</code></td>
+                    <td>Foreground pada Text, Button, TextInput.</td>
+                  </tr>
+                  <tr>
+                    <td><code>borderColor</code>, <code>borderWidth</code></td>
+                    <td><code>"#DDE7E1"</code>, 1</td>
+                    <td>
+                      Border, Button, TextInput. Pada Column/Row, properti
+                      border membungkus panel dengan Border.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>borderRadius</code></td>
+                    <td>18</td>
+                    <td>
+                      CornerRadius pada View atau container yang menjadi Border.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>fontFamily</code>, <code>fontSize</code></td>
+                    <td><code>"Georgia"</code>, 16</td>
+                    <td>Window, Text, Button, TextInput.</td>
+                  </tr>
+                  <tr>
+                    <td><code>fontWeight</code></td>
+                    <td><code>"Bold"</code>, 600</td>
+                    <td>
+                      Window, Text, Button, TextInput. Angka CSS 100-900
+                      dipetakan ke bobot WPF.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>textAlign</code></td>
+                    <td><code>"Center"</code></td>
+                    <td>TextBlock alignment.</td>
+                  </tr>
+                  <tr>
+                    <td><code>opacity</code></td>
+                    <td>0.8</td>
+                    <td>Opacity elemen.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="fine-print">
+              Nilai angka ukuran WPF tidak memakai unit <code>px</code>. Untuk
+              margin/padding berbentuk string, angka dan akhiran
+              <code>px</code> diterima sebagai angka WPF. Style CSS lain yang
+              belum tercantum tidak otomatis diterapkan.
+            </p>
+          </section>
+
+          <section
+            class="doc-section section-block"
+            id="position"
+            data-title="Position playground"
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">LAYOUT LAB <span>08</span></p>
+                <h2>Coba posisi elemen</h2>
+              </div>
+              <p>
+                Pilih titik peletakan. Hasilnya memakai ukuran parent sebagai
+                ruang alignment.
+              </p>
+            </div>
+            <div class="position-lab">
+              <div
+                class="position-controls"
+                role="group"
+                aria-label="Pilih posisi"
+              >
+                <button
+                  type="button"
+                  data-position="top-left"
+                  aria-label="Atas kiri"
+                >
+                  TL
+                </button>
+                <button
+                  type="button"
+                  data-position="top-center"
+                  aria-label="Atas tengah"
+                >
+                  TC
+                </button>
+                <button
+                  type="button"
+                  data-position="top-right"
+                  aria-label="Atas kanan"
+                >
+                  TR
+                </button>
+                <button
+                  type="button"
+                  data-position="center-left"
+                  aria-label="Tengah kiri"
+                >
+                  CL
+                </button>
+                <button
+                  type="button"
+                  data-position="center"
+                  aria-label="Tengah"
+                  aria-pressed="true"
+                >
+                  C
+                </button>
+                <button
+                  type="button"
+                  data-position="center-right"
+                  aria-label="Tengah kanan"
+                >
+                  CR
+                </button>
+                <button
+                  type="button"
+                  data-position="bottom-left"
+                  aria-label="Bawah kiri"
+                >
+                  BL
+                </button>
+                <button
+                  type="button"
+                  data-position="bottom-center"
+                  aria-label="Bawah tengah"
+                >
+                  BC
+                </button>
+                <button
+                  type="button"
+                  data-position="bottom-right"
+                  aria-label="Bawah kanan"
+                >
+                  BR
+                </button>
+              </div>
+              <div class="position-preview">
+                <div class="preview-label">
+                  <span>PREVIEW / WPF GRID</span
+                  ><span id="position-value">center</span>
+                </div>
+                <div class="preview-stage" id="preview-stage">
+                  <div class="preview-crosshair"></div>
+                  <div class="preview-element" id="preview-element">
+                    <span>UI</span><small>View</small>
+                  </div>
+                </div>
+                <code class="position-output" id="position-output"
+                  >position: "center"</code
+                >
+              </div>
+            </div>
+            <div class="position-reference">
+              <code>top-left</code><code>top-center</code><code>top-right</code
+              ><code>center-left</code><code>center</code
+              ><code>center-right</code><code>bottom-left</code
+              ><code>bottom-center</code><code>bottom-right</code>
+            </div>
+            <div class="code-panel compact-code">
+              <div class="code-top">
+                <span>Posisi + ukuran</span><span>Style</span>
+              </div>
+              <pre><code>View({
+  style: {
+    position: "top-right",
+    width: 280,
+    padding: 20,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+  },
+  children: [Text({ value: "Panel" })],
+})</code></pre>
+            </div>
+          </section>
+
+          <section
+            class="doc-section section-block"
+            id="limits"
+            data-title="Batasan saat ini"
+          >
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">CATATAN IMPLEMENTASI <span>09</span></p>
+                <h2>Batasan yang perlu diketahui</h2>
+              </div>
+              <p>
+                API bertumbuh bertahap; bagian ini membedakan props tersedia
+                dari perilaku yang sudah aktif.
+              </p>
+            </div>
+            <div class="limits-list">
+              <div>
+                <span>01</span>
+                <p>
+                  <strong>Subset style, bukan CSS penuh.</strong> Tidak ada
+                  selector, cascade, pseudo-class per komponen, flex/grid CSS,
+                  atau CSS file untuk UI WPF.
+                </p>
+              </div>
+              <div>
+                <span>02</span>
+                <p>
+                  <strong>TextInput belum interaktif.</strong> Generator menulis
+                  nilai awal ke TextBox, tetapi placeholder dan callback
+                  <code>onChange</code> belum diterapkan.
+                </p>
+              </div>
+              <div>
+                <span>03</span>
+                <p>
+                  <strong>Route awal mengikuti urutan object.</strong> Route
+                  pertama yang dideklarasikan ditampilkan saat aplikasi mulai;
+                  <code>initialRoute</code> belum mengubahnya.
+                </p>
+              </div>
+              <div>
+                <span>04</span>
+                <p>
+                  <strong>Parameter navigasi belum masuk ke page.</strong>
+                  Handler generated memakai path untuk menampilkan route, tetapi
+                  belum mengirim <code>params</code> ke komponen halaman.
+                </p>
+              </div>
+              <div>
+                <span>05</span>
+                <p>
+                  <strong>Gunakan nilai statis.</strong> Compiler saat ini
+                  mengonversi object props literal dan callback navigasi yang
+                  dikenali, bukan runtime React atau state hooks.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <footer class="docs-footer">
+            <span class="footer-mark">J</span
+            ><span
+              ><strong>Jsdesk UI Handbook</strong
+              ><small>Reference untuk UI API saat ini</small></span
+            ><a href="#overview">Kembali ke atas <b>↑</b></a>
+          </footer>
+        </div>
+      </main>
+    </div>
+    <div class="search-empty" id="search-empty" hidden>
+      Tidak ada bagian yang cocok. Coba kata kunci lain.
+    </div>
+  </body>
+</html>
